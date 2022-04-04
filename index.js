@@ -19,11 +19,6 @@ const Book = function (title, author, pages, read) {
   this.pages = pages;
   this.read = read;
   this.id = uuid.v4();
-  // this.info = function () {
-  //   return `${this.title} by ${this.author}, ${this.pages} pages, ${
-  //     this.read ? "read" : "not read yet"
-  //   }.`;
-  // };
 };
 
 const addBookToLibrary = function (title, author, pages, read) {
@@ -31,9 +26,11 @@ const addBookToLibrary = function (title, author, pages, read) {
   myLibrary.push(book);
 };
 
-addBookToLibrary("Kör Saatçi", "Richard Dawkins", 421, false);
-addBookToLibrary("Kör Saatçi", "Richard Dawkins", 421, false);
-addBookToLibrary("Kör Saatçi", "Richard Dawkins", 421, false);
+addBookToLibrary("0", "0", 421, false);
+addBookToLibrary("1", "1", 421, false);
+addBookToLibrary("2", "2", 421, false);
+addBookToLibrary("3", "3", 421, false);
+addBookToLibrary("4", "4", 421, false);
 
 const renderLibrary = function () {
   library.innerHTML = "";
@@ -43,7 +40,8 @@ const renderLibrary = function () {
         <div class="title">"${book.title}"</div>
         <div class="author">${book.author}</div>
         <div class="pages"> ${book.pages} pages</div>
-        <div class="read">${book.read ? "read" : "not read"}</div>
+        <button class="btn read">${book.read ? "read" : "not read"}</button>
+        <button class="btn btn-delete">delete</button>
       </div>
     `;
     library.insertAdjacentHTML("beforeend", html);
@@ -51,6 +49,19 @@ const renderLibrary = function () {
 };
 
 renderLibrary();
+
+const deleteBook = function (id) {
+  const cardToDelete = document.querySelector(`[data-id="${id}"]`);
+  library.removeChild(cardToDelete);
+  const indexToDelete = myLibrary.findIndex((book) => book.id === id);
+  myLibrary.splice(indexToDelete, 1);
+};
+
+library.addEventListener("click", function (e) {
+  if (!e.target.classList.contains("btn-delete")) return;
+  const id = e.target.closest(".card").dataset.id;
+  deleteBook(id);
+});
 
 ///////////////////////////////////////
 // Modal window
@@ -84,7 +95,6 @@ modalForm.addEventListener("submit", function (e) {
   for (const [name, value] of data) {
     book[name] = value;
   }
-  console.log(book);
   addBookToLibrary(book.title, book.author, book.pages, book.read);
   renderLibrary();
   closeModal();
