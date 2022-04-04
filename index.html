@@ -18,6 +18,10 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"
+    ></script>
     <script defer src="index.js"></script>
     <title>Odin Library</title>
   </head>
@@ -25,5 +29,50 @@
     <header class="header">
       <div class="logo center">LIBRARY</div>
     </header>
+
+    <div class="add-book center">
+      <button class="btn btn-add-book">&plus; Add book</button>
+    </div>
+
+    <section class="library center">
+      <!-- <div class="card">
+        <div class="title">Kör Saatçi</div>
+        <div class="author">Richard Dawkins</div>
+        <div class="pages">421 pages</div>
+        <div class="read">not read yet</div>
+      </div>
+
+      <div class="card">
+        <div class="title">Kör Saatçi</div>
+        <div class="author">Richard Dawkins</div>
+        <div class="pages">421 pages</div>
+        <div class="read">not read yet</div>
+      </div>
+
+      <div class="card">
+        <div class="title">Kör Saatçi</div>
+        <div class="author">Richard Dawkins</div>
+        <div class="pages">421 pages</div>
+        <div class="read">not read yet</div>
+      </div> -->
+    </section>
+
+    <div class="modal hidden">
+      <button class="btn--close-modal">&times;</button>
+      <h2 class="modal__header">Add a book</h2>
+      <form class="modal__form">
+        <label>Title</label>
+        <input name="title" type="text" />
+        <label>Author</label>
+        <input name="author" type="text" />
+        <label>Pages</label>
+        <input name="pages" type="number" />
+        <button class="btn">Add Book</button>
+        <input type="checkbox" id="read" name="read" />
+        <label for="read">I have read this book.</label>
+      </form>
+    </div>
+
+    <div class="overlay hidden"></div>
   </body>
 </html>
