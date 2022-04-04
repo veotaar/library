@@ -118,7 +118,7 @@ select {
 .library {
   display: grid;
   gap: 1.2rem;
-  grid-template-columns: repeat(auto-fit, 35rem);
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
   margin-top: 2.4rem;
 }
 
@@ -156,6 +156,48 @@ select {
 
 .card button:not(:last-child) {
   margin-bottom: 1.2rem;
+}
+
+.card button {
+  background-color: #ffbaba;
+  color: black;
+}
+
+.card button:hover {
+  background-color: #ff8181;
+  color: black;
+}
+
+.card button.read {
+  background-color: #baffba;
+  color: black;
+}
+
+.card button.read:hover {
+  background-color: #8cff8c;
+  color: black;
+}
+
+.card .btn-delete {
+  background-color: #ffffff;
+  color: black;
+}
+
+.btn-delete:hover {
+  background-color: #c70053;
+  color: #eef2ff;
+}
+
+.add-book {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px double #000;
+  padding-bottom: 2.4rem;
+}
+
+.library-title {
+  font-size: 3.6rem;
 }
 
 /* MODAL */
