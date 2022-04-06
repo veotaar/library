@@ -26,21 +26,14 @@ const addBookToLibrary = function (title, author, pages, read) {
   myLibrary.push(book);
 };
 
-addBookToLibrary("0", "0", 421, true);
-addBookToLibrary("1", "1", 421, false);
-addBookToLibrary("2", "2", 421, true);
-addBookToLibrary("3", "3", 421, false);
-addBookToLibrary("4", "4", 421, false);
-addBookToLibrary("0", "0", 421, true);
-addBookToLibrary("1", "1", 421, false);
-addBookToLibrary("2", "2", 421, true);
-addBookToLibrary("3", "3", 421, false);
-addBookToLibrary("4", "4", 421, false);
-addBookToLibrary("0", "0", 421, true);
-addBookToLibrary("1", "1", 421, false);
-addBookToLibrary("2", "2", 421, true);
-addBookToLibrary("3", "3", 421, false);
-addBookToLibrary("4", "4", 421, false);
+addBookToLibrary("The Little Prince", "Antoine de Saint-Exupéry", 96, true);
+addBookToLibrary(
+  "Harry Potter and the Philosopher's Stone",
+  "J. K. Rowling",
+  309,
+  true
+);
+addBookToLibrary("The Hobbit", "J. R. R. Tolkien", 366, false);
 
 const renderLibrary = function () {
   library.innerHTML = "";
@@ -48,9 +41,12 @@ const renderLibrary = function () {
     const html = `
       <div class="card" data-id="${book.id}">
         <div class="title">"${book.title}"</div>
+        <p class="by">by</p>
         <div class="author">${book.author}</div>
-        <div class="pages"> ${book.pages} pages</div>
-        <button class="status btn ${book.read ? "read" : ""}">${
+        <div class="hr"></div>
+        <div class="pages">${book.pages} pages</div>
+        <div class="hr"></div>
+        <button class="status btn ${book.read ? "read" : "not-read"}">${
       book.read ? "read" : "not read"
     }</button>
         <button class="btn btn-delete">delete</button>

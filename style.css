@@ -1,6 +1,4 @@
 :root {
-  --color-primary-dark: #312e81;
-  --color-primary-light: #eef2ff;
   --color-text-dark: #0f172a;
   --color-text-lighter: #1e293b;
   --color-background: #f8fafc;
@@ -12,6 +10,7 @@
     0px 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+/* Modern CSS reset by Andy Bell */
 /* Box sizing rules */
 *,
 *::before,
@@ -50,7 +49,7 @@ html:focus-within {
 
 /* Set core body defaults */
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Nunito", sans-serif;
   font-weight: 400;
   min-height: 100vh;
   text-rendering: optimizeSpeed;
@@ -104,15 +103,31 @@ select {
   align-items: center;
   justify-content: start;
   height: 100px;
-  font-size: 4.8rem;
-  font-weight: 600;
-  background-color: var(--color-primary-dark);
-  color: var(--color-primary-light);
+  font-size: 4rem;
+  font-weight: 800;
+  background-color: var(--color-background);
+  color: var(--color-text-dark);
   margin-bottom: 12rem;
+  border-bottom: 2px solid #e2e8f0;
 }
 
 .logo {
   width: 100%;
+  user-select: none;
+  letter-spacing: 0.1ch;
+}
+
+.add-book {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid #94a3b8;
+  padding-bottom: 1.2rem;
+}
+
+.library-title {
+  font-size: 3.6rem;
+  letter-spacing: 0.15ch;
 }
 
 .library {
@@ -126,7 +141,8 @@ select {
   display: flex;
   flex-direction: column;
   background-color: #fff;
-
+  align-items: center;
+  text-align: center;
   border-radius: 7px;
   box-shadow: var(--box-shadow-3);
   padding: 2.4rem;
@@ -135,69 +151,83 @@ select {
 }
 
 .title {
+  line-height: 1;
+}
+
+.title,
+.by {
   font-style: italic;
+  letter-spacing: 0.1ch;
+}
+
+.author {
+  letter-spacing: 0.1ch;
+}
+
+.pages {
+  margin-bottom: 1rem;
+}
+
+/* Horizontal Line */
+.hr {
+  margin-top: auto;
+  width: 100%;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 1rem;
 }
 
 .btn {
   cursor: pointer;
   font-size: 2.4rem;
-  padding: 1.2rem 2.4rem;
+  padding: 1rem 2rem;
   border: none;
-  background-color: var(--color-primary-dark);
-  color: var(--color-primary-light);
+  background-color: var(--color-background);
+  color: var(--color-text-dark);
   font-weight: 600;
   border-radius: 11px;
 }
 
 .btn:hover,
 .btn:active {
-  background-color: #3730a3;
+  background-color: var(--color-text-dark);
+  color: var(--color-background);
 }
 
 .card button:not(:last-child) {
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.75rem;
 }
 
-.card button {
-  background-color: #ffbaba;
-  color: black;
+/* "not read" status */
+.card button.not-read {
+  background-color: #fee2e2;
+  color: #991b1b;
 }
 
-.card button:hover {
-  background-color: #ff8181;
-  color: black;
+.card button.not-read:hover {
+  background-color: #fecaca;
+  color: #991b1b;
 }
-
+/* "read" status */
 .card button.read {
-  background-color: #baffba;
-  color: black;
+  background-color: #d1fae5;
+  color: #065f46;
 }
 
 .card button.read:hover {
-  background-color: #8cff8c;
-  color: black;
+  background-color: #a7f3d0;
+  color: #065f46;
 }
 
+/* delete button  */
 .card .btn-delete {
   background-color: #ffffff;
-  color: black;
+  color: #475569;
 }
 
-.btn-delete:hover {
-  background-color: #c70053;
-  color: #eef2ff;
-}
-
-.add-book {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-bottom: 1px double #000;
-  padding-bottom: 2.4rem;
-}
-
-.library-title {
-  font-size: 3.6rem;
+.card .btn-delete:hover {
+  outline: 2px solid #b91c1c;
+  background-color: #fff;
+  color: #b91c1c;
 }
 
 /* MODAL */
@@ -207,11 +237,11 @@ select {
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 60rem;
-  background-color: #f3f3f3;
+  background-color: var(--color-background);
   padding: 5rem 6rem;
   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.3);
   z-index: 1000;
-  transition: all 0.5s;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .overlay {
@@ -223,7 +253,7 @@ select {
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   z-index: 100;
-  transition: all 0.5s;
+  transition: opacity 0.5s;
 }
 
 .modal__header {
@@ -282,7 +312,17 @@ select {
   display: flex;
 }
 
+.btn-modal {
+  background-color: var(--color-text-dark);
+  color: var(--color-background);
+}
+
+.btn-modal:hover {
+  background-color: #1e293b;
+}
+
 .hidden {
   visibility: hidden;
   opacity: 0;
+  transform: translate(-50%, -46%);
 }
