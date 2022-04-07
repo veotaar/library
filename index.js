@@ -11,6 +11,10 @@ const inputAuthor = document.querySelector('input[name="author"]');
 const inputPages = document.querySelector('input[name="pages"]');
 const inputRead = document.querySelector('input[name="read"]');
 
+const cleanData = function (userInput) {
+  return DOMPurify.sanitize(userInput);
+};
+
 let myLibrary = [];
 
 const Book = function (title, author, pages, read) {
@@ -38,7 +42,7 @@ addBookToLibrary("The Hobbit", "J. R. R. Tolkien", 366, false);
 const renderLibrary = function () {
   library.innerHTML = "";
   myLibrary.forEach((book) => {
-    const html = `
+    const html = cleanData(`
       <div class="card" data-id="${book.id}">
         <div class="title">"${book.title}"</div>
         <p class="by">by</p>
@@ -51,7 +55,7 @@ const renderLibrary = function () {
     }</button>
         <button class="btn btn-delete">delete</button>
       </div>
-    `;
+    `);
     library.insertAdjacentHTML("beforeend", html);
   });
 };
