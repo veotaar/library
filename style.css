@@ -93,6 +93,14 @@ select {
   }
 }
 
+@media only screen and (max-width: 1280px) {
+  .logo,
+  .add-book,
+  .library {
+    padding: 0 2rem;
+  }
+}
+
 .center {
   max-width: var(--container-width);
   margin-inline: auto;
