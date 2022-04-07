@@ -48,7 +48,9 @@ const renderLibrary = function () {
         <p class="by">by</p>
         <div class="author">${book.author}</div>
         <div class="hr"></div>
-        <div class="pages">${book.pages} pages</div>
+        <div class="pages">${
+          book.pages > 25000 ? "a lot of" : Math.trunc(book.pages)
+        } pages</div>
         <div class="hr"></div>
         <button class="status btn ${book.read ? "read" : "not-read"}">${
       book.read ? "read" : "not read"
