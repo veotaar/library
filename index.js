@@ -15,84 +15,88 @@ const cleanData = function (userInput) {
   return DOMPurify.sanitize(userInput);
 };
 
-let myLibrary = [];
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+    this.id = uuid.v4();
+  }
+}
 
-const Book = function (title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.id = uuid.v4();
-};
+class Library {
+  constructor() {
+    this.myLibrary = [];
+  }
 
-const addBookToLibrary = function (title, author, pages, read) {
-  const book = new Book(title, author, pages, read);
-  myLibrary.push(book);
-};
+  addBookToLibrary(title, author, pages, read) {
+    const book = new Book(title, author, pages, read);
+    this.myLibrary.push(book);
+  }
 
-addBookToLibrary("The Little Prince", "Antoine de Saint-Exupéry", 96, true);
-addBookToLibrary(
+  renderLibrary() {
+    library.innerHTML = "";
+    this.myLibrary.forEach((book) => {
+      const html = cleanData(`
+        <div class="card" data-id="${book.id}">
+          <div class="title">"${book.title}"</div>
+          <p class="by">by</p>
+          <div class="author">${book.author}</div>
+          <div class="hr"></div>
+          <div class="pages">${
+            book.pages > 25000 ? "a lot of" : Math.trunc(book.pages)
+          } pages</div>
+          <div class="hr"></div>
+          <button class="status btn ${book.read ? "read" : "not-read"}">${
+        book.read ? "read" : "not read"
+      }</button>
+          <button class="btn btn-delete">delete</button>
+        </div>
+      `);
+      library.insertAdjacentHTML("beforeend", html);
+    });
+  }
+
+  deleteBook(id) {
+    // remove book from DOM
+    const cardToDelete = document.querySelector(`[data-id="${id}"]`);
+    library.removeChild(cardToDelete);
+
+    // remove book from array
+    const indexToDelete = this.myLibrary.findIndex((book) => book.id === id);
+    this.myLibrary.splice(indexToDelete, 1);
+  }
+
+  changeReadStatus(id) {
+    const book = document.querySelector(`[data-id="${id}"]`);
+    book.querySelector(".status").classList.toggle("read");
+
+    // select correct book
+    const bookToChangeStatus = this.myLibrary.find((book) => book.id === id);
+    bookToChangeStatus.read = !bookToChangeStatus.read;
+    this.renderLibrary();
+  }
+}
+
+const lib = new Library();
+
+lib.addBookToLibrary("The Little Prince", "Antoine de Saint-Exupéry", 96, true);
+lib.addBookToLibrary(
   "Harry Potter and the Philosopher's Stone",
   "J. K. Rowling",
   309,
   true
 );
-addBookToLibrary("The Hobbit", "J. R. R. Tolkien", 366, false);
+lib.addBookToLibrary("The Hobbit", "J. R. R. Tolkien", 366, false);
 
-const renderLibrary = function () {
-  library.innerHTML = "";
-  myLibrary.forEach((book) => {
-    const html = cleanData(`
-      <div class="card" data-id="${book.id}">
-        <div class="title">"${book.title}"</div>
-        <p class="by">by</p>
-        <div class="author">${book.author}</div>
-        <div class="hr"></div>
-        <div class="pages">${
-          book.pages > 25000 ? "a lot of" : Math.trunc(book.pages)
-        } pages</div>
-        <div class="hr"></div>
-        <button class="status btn ${book.read ? "read" : "not-read"}">${
-      book.read ? "read" : "not read"
-    }</button>
-        <button class="btn btn-delete">delete</button>
-      </div>
-    `);
-    library.insertAdjacentHTML("beforeend", html);
-  });
-};
-
-renderLibrary();
-///////////////////////////////////
-// Removing books
-
-const deleteBook = function (id) {
-  // remove book from DOM
-  const cardToDelete = document.querySelector(`[data-id="${id}"]`);
-  library.removeChild(cardToDelete);
-
-  // remove book from array
-  const indexToDelete = myLibrary.findIndex((book) => book.id === id);
-  myLibrary.splice(indexToDelete, 1);
-};
+lib.renderLibrary();
 
 library.addEventListener("click", function (e) {
   if (!e.target.classList.contains("btn-delete")) return;
   const id = e.target.closest(".card").dataset.id;
-  deleteBook(id);
+  lib.deleteBook(id);
 });
-
-///////////////////////////////////////
-// Changing read status
-const changeReadStatus = function (id) {
-  const book = document.querySelector(`[data-id="${id}"]`);
-  book.querySelector(".status").classList.toggle("read");
-
-  // select correct book
-  const bookToChangeStatus = myLibrary.find((book) => book.id === id);
-  bookToChangeStatus.read = !bookToChangeStatus.read;
-  renderLibrary();
-};
 
 library.addEventListener("click", function (e) {
   const readButtonCondition =
@@ -100,7 +104,7 @@ library.addEventListener("click", function (e) {
     e.target.classList.contains("btn-delete");
   if (readButtonCondition) return;
   const id = e.target.closest(".card").dataset.id;
-  changeReadStatus(id);
+  lib.changeReadStatus(id);
 });
 
 ///////////////////////////////////////
@@ -135,9 +139,9 @@ modalForm.addEventListener("submit", function (e) {
   for (const [name, value] of data) {
     book[name] = value;
   }
-  addBookToLibrary(book.title, book.author, book.pages, book.read);
+  lib.addBookToLibrary(book.title, book.author, book.pages, book.read);
   book = null; // dereference
-  renderLibrary();
+  lib.renderLibrary();
   closeModal();
   inputAuthor.value = inputTitle.value = inputPages.value = "";
   inputRead.checked = false;
